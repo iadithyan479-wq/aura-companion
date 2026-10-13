@@ -1,0 +1,8 @@
+THIRD-PARTY NOTICE
+
+@mediapipe/tasks-vision 1.1.0 — MediaPipe Vision Tasks JavaScript/WASM runtime by Google LLC. The package declares the Apache-2.0 license; its text is provided in LICENSE.txt.
+
+face_landmarker.task — the Face Landmarker float16 model bundle mirrored from Google's official MediaPipe model distribution for same-origin serving and on-device inference:
+https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task
+
+This NOTICE documents provenance; consult Google/MediaPipe's accompanying model notices for the model asset's licensing and terms. AURA uses the model only to estimate visible facial-expression cues locally and does not treat them as a diagnosis or as verified feelings.
