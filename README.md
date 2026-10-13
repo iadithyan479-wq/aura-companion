@@ -1,45 +1,123 @@
-# AURA — Your Galaxy Companion
+<div align="center">
+  <img src="client/public/aura-mark.svg" width="88" height="88" alt="AURA orbit mark" />
+  <h1>AURA — Your Galaxy Companion</h1>
+  <p><strong>A softer place to land.</strong></p>
+  <p>A calm, galaxy-inspired companion prototype for thoughtful check-ins, gentle conversation, and moments of reflection.</p>
+  <p>
+    <img alt="Progressive Web App" src="https://img.shields.io/badge/Platform-Progressive%20Web%20App-74649d?style=flat-square" />
+    <img alt="React 19" src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=20232a&style=flat-square" />
+    <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white&style=flat-square" />
+    <img alt="Vite 7" src="https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white&style=flat-square" />
+  </p>
+</div>
 
-AURA is a responsive, installable Progressive Web App for gentle check-ins, a local companion chat, and an optional, consent-first expression check. One web experience can be installed from compatible mobile and desktop browsers. It is **not** a signed native Android/iOS/Windows/macOS package.
+---
+
+## About AURA
+
+AURA is a responsive, installable web app designed to feel like a personal little cosmos. Its animated galaxy core reacts to interaction while the dashboard brings together a conversation space, manual mood check-ins, and an optional camera-based **visible-expression estimate**.
+
+AURA is intentionally a **local-first prototype**. Its chat uses a small set of supportive, rule-based replies; it is not connected to a generative AI service. Camera-based cues are estimates of visible facial expressions—not proof of a person’s feelings.
 
 ## Screenshots
 
-**Desktop**
+### Desktop
 
 ![AURA desktop dashboard](screenshots/aura-desktop.png)
 
-**Mobile**
+### Mobile
 
 ![AURA mobile dashboard](screenshots/aura-mobile.png)
 
-## Run locally
+## Highlights
 
-- `pnpm install` — install dependencies.
-- `pnpm dev:static` — start the Vite app (default port 3000).
-- `pnpm check` — type-check the client and Vite configuration.
-- `pnpm build:static` — build the static site into `dist/public/`.
+- **A living galaxy interface** — a softly animated core responds to listening, thinking, speaking, and mood states.
+- **Gentle conversation** — message prompts and local response templates offer a low-pressure place to reflect.
+- **Manual mood check-ins** — choose a mood directly; camera access is never required.
+- **Optional expression check-in** — after the on-screen notice, explicit consent, and browser permission, MediaPipe estimates visible-expression cues on the device.
+- **Voice, where supported** — optional browser speech input and text-to-speech output.
+- **Personalization by choice** — name, interests, style, voice, and atmosphere can be saved in this browser only when the user opts in.
+- **Installable PWA** — responsive layouts, app icons, a web manifest, and a service worker support installation in compatible browsers.
 
-The build copies the MediaPipe WebAssembly runtime from the installed package into the same-origin public assets. The face-landmarker model is included in `client/public/mediapipe/`.
+## Getting started
 
-## What it does
+### Requirements
 
-- A softly animated galaxy core with listening/thinking/speaking states.
-- Text chat with a small set of supportive **local rule-based** replies.
-- Manual mood check-ins, plus an optional camera-based visible-expression estimate.
-- Opt-in browser speech input and output where supported.
-- Personalization and optional browser-local settings.
-- Responsive PWA shell, install icons, and a service worker.
+- Node.js 22 or later
+- pnpm 11.25.0 (the project’s `packageManager` version)
 
-## Privacy and limitations
+### Install and run
 
-The camera is off on arrival. A visitor must read and accept the notice, explicitly start the camera, and approve the browser permission. AURA requests video only; the MediaPipe expression model runs on-device. It estimates visible facial-expression cues, which are **not** proof of someone’s feelings, a clinical inference, or a diagnosis. Video is not uploaded or retained by AURA. Manual check-ins remain available without camera access.
+```bash
+pnpm install
+pnpm dev:static
+```
 
-Chat replies are local templates, not generative AI or an LLM-backed real-time service. Conversation context lasts for the page session. Preferences are saved in local browser storage only when the user opts in. Browser speech recognition may involve browser/provider services; on-device speech recognition is not promised. AURA is a supportive prototype, not mental-health care.
+Open **http://localhost:3000** in a modern browser. Camera check-in requires a secure context—use `localhost` for local development or HTTPS after deployment—and a browser that supports the required camera APIs.
 
-## Website promo video
+### Validate and build
 
-A 30-second branded promo is available at `client/public/aura-website-promo-30s.mp4` for use on the website.
+```bash
+pnpm check
+pnpm build:static
+```
 
-## Third-party assets
+The static production site is written to `dist/public/`. The build script stages the installed MediaPipe WebAssembly runtime into the public assets so the optional expression check can use same-origin files.
 
-The MediaPipe Vision Tasks runtime is distributed under Apache-2.0; see `THIRD_PARTY_NOTICES.txt`. The Face Landmarker model is sourced from the official Google MediaPipe model distribution; review its accompanying notices and terms before redistribution or commercial use.
+## Project structure
+
+```text
+client/
+├── index.html
+├── public/
+│   ├── aura-mark.svg
+│   ├── aura-192.png, aura-512.png, apple-touch-icon.png
+│   ├── manifest.webmanifest
+│   ├── sw.js
+│   ├── aura-website-promo-30s.mp4
+│   └── mediapipe/                 # On-device model and generated WASM runtime
+└── src/
+    ├── components/
+    │   ├── CameraMood.tsx         # Consent-first camera check-in
+    │   ├── GalaxyCore.tsx         # Animated companion core
+    │   └── SettingsPanel.tsx       # Local personalization
+    ├── pages/Home.tsx             # Responsive companion dashboard
+    ├── types/companion.ts
+    ├── index.css
+    └── main.tsx
+scripts/copy-mediapipe.mjs        # Stages the MediaPipe WASM files
+vite.config.ts
+```
+
+## Privacy and product boundaries
+
+AURA aims to keep sensing explicit and the product’s boundaries clear:
+
+- **Camera starts off.** The person must read the notice, check the consent box, choose the camera action, and grant the browser permission. AURA requests video only.
+- **Expression cues stay limited.** MediaPipe runs on-device and estimates visible cues such as smile-like or neutral-looking expressions. These cues do not reliably reveal how someone feels and are not clinical or diagnostic assessments. A person’s own check-in takes precedence.
+- **No AURA chat backend.** Replies are selected from local templates. Conversation context lasts for the current page session; it is not sent to an AURA account or cloud conversation service.
+- **Preferences are opt-in.** Settings are stored in browser local storage only when “Remember these settings on this device” is enabled. AURA does not sync preferences or mood history across devices.
+- **Speech depends on the browser.** Speech features are optional and use browser APIs. Speech recognition may involve the browser/provider’s own processing; AURA does not promise that recognized audio stays on-device.
+- **Not care or crisis support.** AURA is a supportive prototype, not mental-health care, diagnosis, or an emergency service.
+
+## Install AURA
+
+AURA is a Progressive Web App rather than a signed native application package. On a deployed HTTPS site, installation is available through supported browsers:
+
+- **Android:** open the site in a compatible browser and choose **Install app** or **Add to Home screen**.
+- **iPhone or iPad:** open the site in Safari, tap **Share**, then choose **Add to Home Screen**.
+- **Windows and macOS:** use the browser’s **Install** option where supported.
+
+Availability and offline behavior vary by browser. Browser speech recognition is not guaranteed to work offline. This project does **not** include Play Store, App Store, Windows-installer, or macOS-installer packages.
+
+## Website promo
+
+A 30-second, 16:9 website promo is included at [`client/public/aura-website-promo-30s.mp4`](client/public/aura-website-promo-30s.mp4). It can be previewed or added to a page as a video asset.
+
+## Technology
+
+React · TypeScript · Vite · Tailwind CSS · MediaPipe Tasks Vision · Lucide
+
+## Third-party notices and license
+
+The MediaPipe Tasks Vision runtime is distributed under Apache-2.0. The Face Landmarker model is sourced from Google’s official MediaPipe model distribution. See [`THIRD_PARTY_NOTICES.txt`](THIRD_PARTY_NOTICES.txt) for provenance and notes, and review the applicable third-party terms before redistribution or commercial use. Project code is provided under the [MIT License](LICENSE).
